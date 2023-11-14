@@ -1,6 +1,6 @@
 # Django-Task
 
-## Install
+## Install and run dev environment
 
 1. Install Docker and docker-compose.
 
@@ -17,6 +17,7 @@ Don't forget press CTRL+D to exit from super user account.
 
 ```
 cp example.env .env
+export $(xargs <.env)
 ```
 
 3. Change a random string for `SECRET_KEY` and `POSTGRES_PASSWORD` in `.env`.
@@ -32,11 +33,33 @@ pip install -r requirements.txt
 5. Up docker-compose, migrate database and create super user:
 
 ```
+docker-compose up --build
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+6. open project swagger
+
+http://127.0.0.1:8000/api/docs/
+
+## run prod environment
+
+1. Apply environment variables:
+
+```
+cp example.env .env
+export $(xargs <.env)
+```
+
+2. Up docker-compose, migrate database and create super user:
+
+```
 docker-compose -f docker-compose-production.yml up --build
 docker-compose -f docker-compose-production.yml exec backend bash
 python manage.py createsuperuser
 ```
 
-6. open project swagger
+3. open project swagger
 
 http://0.0.0.0:8000/api/docs/
