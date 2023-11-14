@@ -3,3 +3,4 @@ env
 pyrightconfig.json
 __pycache__
 static
+.env
