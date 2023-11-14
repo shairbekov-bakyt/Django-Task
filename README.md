@@ -45,11 +45,11 @@ http://127.0.0.1:8000/api/docs/
 
 ## run prod environment
 
-1. Apply environment variables:
+1. Apply environment variables and change .env file:
 
 ```
 cp example.env .env
-export $(xargs <.env)
+POSTGRES_HOST=postgres
 ```
 
 2. Up docker-compose, migrate database and create super user:
