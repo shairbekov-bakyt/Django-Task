@@ -1,10 +1,11 @@
 from datetime import timedelta, datetime
+
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.conf import settings
-from django.core.mail import send_mail
 
+from user.tasks import send_mail_async
 from user.utils import generate_random_digits
 
 
@@ -33,10 +34,11 @@ class UserEmailConfirmMixin(models.Model):
         self.code_send_date = datetime.now()
         self.save()
 
-        send_mail(
-            subject="Подтверждение Почты",
-            message=f"Ваш код для подтверждение {self.confirmation_code}",
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[self.email, ],  # type: ignore
-        )
+        data = {
+            "subject": "Подтверждение Почты",
+            "message": f"Ваш код для подтверждение {self.confirmation_code}",
+            "from_email": settings.EMAIL_HOST_USER,
+            "recipient_list": [self.email, ],  # type: ignore
+        }
+        send_mail_async.delay(data)
         return True

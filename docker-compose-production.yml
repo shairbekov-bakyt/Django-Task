@@ -11,6 +11,23 @@ services:
       - ./dumps:/code/dumps
       - ./data/postgresql:/var/lib/postgresql/data
 
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    command: celery -A app worker --loglevel=info -B
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./public:/code/public
+
   backend:
     build: .
     ports:
