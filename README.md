@@ -54,6 +54,7 @@ http://127.0.0.1:8000/api/docs/
 ```
 cp example.env .env
 POSTGRES_HOST=postgres
+REDIS_HOST=redis
 ```
 
 2. Up docker-compose, migrate database and create super user:
