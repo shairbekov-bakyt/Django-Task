@@ -38,6 +38,10 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
+7. Up celery
+```
+celery -A app worker -l INFO
+```
 
 6. open project swagger
 
